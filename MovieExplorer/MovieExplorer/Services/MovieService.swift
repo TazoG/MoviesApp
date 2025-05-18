@@ -11,7 +11,8 @@ class MovieService {
     private let apiKey = "1a96a69f1ad40a2dde00e71900241f7d"
 
     func fetchPopularMovies() async throws -> [Movie] {
-        let urlString = "https://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)&language=en-US&page=1"
+        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&sort_by=popularity.desc"
+        
         guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
         }

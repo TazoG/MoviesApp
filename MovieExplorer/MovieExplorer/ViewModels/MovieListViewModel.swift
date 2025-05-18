@@ -12,20 +12,28 @@ class MovieListViewModel: ObservableObject {
     @Published var movies: [Movie] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-
+    
     private let movieService = MovieService()
-
+    
     func fetchMovies() async {
         isLoading = true
         errorMessage = nil
-
+        
         do {
             let movieList = try await movieService.fetchPopularMovies()
             movies = movieList
         } catch {
             errorMessage = "Failed to load movies: \(error.localizedDescription)"
         }
-
+        
         isLoading = false
     }
+    
+    func filteredMovies(searchText: String) -> [Movie] {
+        guard !searchText.isEmpty else { return movies }
+        return movies.filter { movie in
+            movie.title.localizedCaseInsensitiveContains(searchText)
+        }
+    }
 }
+
