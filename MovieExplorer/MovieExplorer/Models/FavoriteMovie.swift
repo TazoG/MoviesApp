@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class FavoriteMovie {
-    var id: Int
+    @Attribute(.unique) var id: Int
     var title: String
     var posterPath: String?
     var overview: String?
@@ -22,5 +22,22 @@ class FavoriteMovie {
         self.posterPath = posterPath
         self.overview = overview
         self.releaseDate = releaseDate
+    }
+}
+
+extension FavoriteMovie {
+    func toMovie() -> Movie {
+        Movie(
+            id: id,
+            title: title,
+            overview: overview,
+            posterPath: posterPath,
+            releaseDate: releaseDate, 
+            voteAverage: 0.0
+        )
+    }
+
+    var posterURL: URL? {
+        Movie.imageBaseURL.appending(path: posterPath ?? "")
     }
 }

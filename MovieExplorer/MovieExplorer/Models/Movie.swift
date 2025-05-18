@@ -12,17 +12,20 @@ struct MovieResponse: Codable {
 }
 
 struct Movie: Codable, Identifiable {
+    static let imageBaseURL = URL(string: "https://image.tmdb.org/t/p/w500")!
+
     let id: Int
     let title: String
     let overview: String?
     let posterPath: String?
     let releaseDate: String
     let voteAverage: Double
-
+    
     var posterURL: URL? {
-            guard let path = posterPath else { return nil }
-            return URL(string: "https://image.tmdb.org/t/p/w200\(path)")
-        }
+        guard let path = posterPath else { return nil }
+        return Movie.imageBaseURL.appendingPathComponent(path)
+        //            return URL(string: "https://image.tmdb.org/t/p/w200\(path)")
+    }
 
     enum CodingKeys: String, CodingKey {
         case id, title, overview
@@ -42,4 +45,17 @@ extension Movie {
         voteAverage: 9.0
     )
 }
+
+extension Movie {
+    func toFavorite() -> FavoriteMovie {
+        FavoriteMovie(
+            id: id,
+            title: title,
+            posterPath: posterPath, 
+            overview: overview,
+            releaseDate: releaseDate
+        )
+    }
+}
+
 

@@ -12,7 +12,7 @@ import SwiftData
 struct MovieExplorerApp: App {
     var body: some Scene {
         WindowGroup {
-            MovieListView()
+            RootTabView()
         }
         .modelContainer(for: FavoriteMovie.self)
     }
