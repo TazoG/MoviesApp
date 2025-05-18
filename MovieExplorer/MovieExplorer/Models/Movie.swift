@@ -32,3 +32,14 @@ struct Movie: Codable, Identifiable {
     }
 }
 
+extension Movie {
+    static let preview = Movie(
+        id: 1,
+        title: "The Dark Knight",
+        overview: "Batman raises the stakes in his war on crime.",
+        posterPath: "/preview.jpg",
+        releaseDate: "2008-07-18", 
+        voteAverage: 9.0
+    )
+}
+

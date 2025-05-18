@@ -16,6 +16,7 @@
 		DA6ED7272DD9F32C0019BADA /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED7262DD9F32C0019BADA /* MovieListViewModel.swift */; };
 		DA6ED7292DD9F6D50019BADA /* MovieListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED7282DD9F6D50019BADA /* MovieListView.swift */; };
 		DA6ED72C2DDA09E00019BADA /* MovieRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */; };
+		DA6ED72E2DDA0D9C0019BADA /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED72D2DDA0D9C0019BADA /* MovieDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		DA6ED7262DD9F32C0019BADA /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
 		DA6ED7282DD9F6D50019BADA /* MovieListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListView.swift; sourceTree = "<group>"; };
 		DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRowView.swift; sourceTree = "<group>"; };
+		DA6ED72D2DDA0D9C0019BADA /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			children = (
 				DA6ED7282DD9F6D50019BADA /* MovieListView.swift */,
 				DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */,
+				DA6ED72D2DDA0D9C0019BADA /* MovieDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				DA6ED72C2DDA09E00019BADA /* MovieRowView.swift in Sources */,
 				DA6ED7232DD9E9450019BADA /* Movie.swift in Sources */,
 				DA6ED7272DD9F32C0019BADA /* MovieListViewModel.swift in Sources */,
+				DA6ED72E2DDA0D9C0019BADA /* MovieDetailView.swift in Sources */,
 				DA6ED7292DD9F6D50019BADA /* MovieListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
