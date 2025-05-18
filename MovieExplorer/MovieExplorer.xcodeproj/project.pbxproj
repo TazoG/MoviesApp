@@ -18,6 +18,7 @@
 		DA6ED72C2DDA09E00019BADA /* MovieRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */; };
 		DA6ED72E2DDA0D9C0019BADA /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED72D2DDA0D9C0019BADA /* MovieDetailView.swift */; };
 		DA6ED7302DDA6B350019BADA /* FavoriteMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED72F2DDA6B350019BADA /* FavoriteMovie.swift */; };
+		DA6ED7322DDA6E470019BADA /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED7312DDA6E470019BADA /* FavoritesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRowView.swift; sourceTree = "<group>"; };
 		DA6ED72D2DDA0D9C0019BADA /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		DA6ED72F2DDA6B350019BADA /* FavoriteMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovie.swift; sourceTree = "<group>"; };
+		DA6ED7312DDA6E470019BADA /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				DA6ED7282DD9F6D50019BADA /* MovieListView.swift */,
 				DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */,
 				DA6ED72D2DDA0D9C0019BADA /* MovieDetailView.swift */,
+				DA6ED7312DDA6E470019BADA /* FavoritesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA6ED7322DDA6E470019BADA /* FavoritesView.swift in Sources */,
 				DA6ED7122DD9E78F0019BADA /* ContentView.swift in Sources */,
 				DA6ED7102DD9E78F0019BADA /* MovieExplorerApp.swift in Sources */,
 				DA6ED7302DDA6B350019BADA /* FavoriteMovie.swift in Sources */,

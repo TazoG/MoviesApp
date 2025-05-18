@@ -6,9 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MovieDetailView: View {
     let movie: Movie
+
+    @Environment(\.modelContext) private var modelContext
+    @Query private var favorites: [FavoriteMovie]
+
+    var isFavorite: Bool {
+        favorites.contains { $0.id == movie.id }
+    }
 
     var body: some View {
         ScrollView {
@@ -51,8 +59,31 @@ struct MovieDetailView: View {
         }
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
+
+        Button {
+            toggleFavorite()
+        } label: {
+            Label(isFavorite ? "Remove Favorite" : "Add to Favorites", systemImage: isFavorite ? "heart.fill" : "heart")
+                .foregroundColor(isFavorite ? .red : .primary)
+        }
+    }
+
+    func toggleFavorite() {
+        if let favorite = favorites.first(where: { $0.id == movie.id }) {
+            modelContext.delete(favorite)
+        } else {
+            let newFavorite = FavoriteMovie(
+                id: movie.id,
+                title: movie.title,
+                posterPath: movie.posterPath,
+                overview: movie.overview,
+                releaseDate: movie.releaseDate
+            )
+            modelContext.insert(newFavorite)
+        }
     }
 }
+
 
 
 #Preview {

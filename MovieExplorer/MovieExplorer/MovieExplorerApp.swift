@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct MovieExplorerApp: App {
@@ -13,5 +14,6 @@ struct MovieExplorerApp: App {
         WindowGroup {
             MovieListView()
         }
+        .modelContainer(for: FavoriteMovie.self)
     }
 }
