@@ -15,6 +15,7 @@
 		DA6ED7252DD9E9A60019BADA /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED7242DD9E9A60019BADA /* MovieService.swift */; };
 		DA6ED7272DD9F32C0019BADA /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED7262DD9F32C0019BADA /* MovieListViewModel.swift */; };
 		DA6ED7292DD9F6D50019BADA /* MovieListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED7282DD9F6D50019BADA /* MovieListView.swift */; };
+		DA6ED72C2DDA09E00019BADA /* MovieRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		DA6ED7242DD9E9A60019BADA /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
 		DA6ED7262DD9F32C0019BADA /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
 		DA6ED7282DD9F6D50019BADA /* MovieListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListView.swift; sourceTree = "<group>"; };
+		DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				DA6ED7282DD9F6D50019BADA /* MovieListView.swift */,
+				DA6ED72B2DDA09E00019BADA /* MovieRowView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				DA6ED7122DD9E78F0019BADA /* ContentView.swift in Sources */,
 				DA6ED7102DD9E78F0019BADA /* MovieExplorerApp.swift in Sources */,
 				DA6ED7252DD9E9A60019BADA /* MovieService.swift in Sources */,
+				DA6ED72C2DDA09E00019BADA /* MovieRowView.swift in Sources */,
 				DA6ED7232DD9E9450019BADA /* Movie.swift in Sources */,
 				DA6ED7272DD9F32C0019BADA /* MovieListViewModel.swift in Sources */,
 				DA6ED7292DD9F6D50019BADA /* MovieListView.swift in Sources */,
