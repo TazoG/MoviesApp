@@ -10,9 +10,9 @@ import Foundation
 class MovieService {
     private let apiKey = "1a96a69f1ad40a2dde00e71900241f7d"
 
-    func fetchPopularMovies() async throws -> [Movie] {
-        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&sort_by=popularity.desc"
-        
+    func fetchPopularMovies(page: Int) async throws -> [Movie] {
+        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=en-US&page=\(page)"
+
         guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
         }
@@ -26,5 +26,25 @@ class MovieService {
         let decoded = try JSONDecoder().decode(MovieResponse.self, from: data)
         return decoded.results
     }
+
+    func fetchMovieTrailer(movieId: Int) async throws -> URL? {
+        let url = URL(string: "\(Constants.baseURL)/movie/\(movieId)/videos?api_key=\(Constants.apiKey)&language=en-US")!
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let response = try JSONDecoder().decode(VideoResponse.self, from: data)
+
+        if let trailer = response.results.first(where: { $0.type == "Trailer" && $0.site == "YouTube" }) {
+            return URL(string: "https://www.youtube.com/watch?v=\(trailer.key)")
+        } else {
+            return nil
+        }
+    }
 }
+
+struct Constants {
+    static let apiKey = "1a96a69f1ad40a2dde00e71900241f7d"
+    static let baseURL = "https://api.themoviedb.org/3"
+    static let imageBaseURL = "https://image.tmdb.org/t/p/w500"
+}
+
+
 

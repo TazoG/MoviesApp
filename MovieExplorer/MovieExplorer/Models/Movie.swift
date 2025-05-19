@@ -11,7 +11,7 @@ struct MovieResponse: Codable {
     let results: [Movie]
 }
 
-struct Movie: Codable, Identifiable {
+struct Movie: Codable, Identifiable, Equatable {
     static let imageBaseURL = URL(string: "https://image.tmdb.org/t/p/w500")!
 
     let id: Int

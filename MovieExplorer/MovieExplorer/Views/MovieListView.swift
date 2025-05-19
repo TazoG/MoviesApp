@@ -10,6 +10,7 @@ import SwiftUI
 struct MovieListView: View {
     @StateObject private var viewModel = MovieListViewModel()
     @State private var searchText = ""
+    @State private var currentPage = 1
 
     var body: some View {
 
@@ -27,7 +28,7 @@ struct MovieListView: View {
                         .multilineTextAlignment(.center)
                     Button {
                         Task {
-                            await viewModel.fetchMovies()
+                            await viewModel.fetchMovies(for: currentPage)
                         }
                     } label: {
                         Label("Retry", systemImage: "arrow.clockwise")
@@ -58,17 +59,57 @@ struct MovieListView: View {
                     MovieRowView(movie: movie)
                 }
                 .listStyle(.plain)
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text("Movies")
-                            .font(.title2.bold())
+                .navigationTitle("Movies")
+            }
+
+            HStack(spacing: 24) {
+                Button {
+                    if currentPage > 1 {
+                        currentPage -= 1
+                        Task {
+                            await viewModel.fetchMovies(for: currentPage)
+                        }
                     }
+                } label: {
+                    Label("Previous", systemImage: "chevron.left")
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .background(Color.blue.opacity(0.1))
+                        .foregroundColor(currentPage == 1 ? .gray : .blue)
+                        .cornerRadius(12)
+                }
+                .disabled(currentPage == 1)
+
+                Text("Page \(currentPage)")
+                    .font(.headline)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+
+                Button {
+                    currentPage += 1
+                    Task {
+                        await viewModel.fetchMovies(for: currentPage)
+                    }
+                } label: {
+                    Label("Next", systemImage: "chevron.right")
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .background(Color.blue.opacity(0.1))
+                        .foregroundColor(.blue)
+                        .cornerRadius(12)
                 }
             }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color(.systemGroupedBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .shadow(radius: 2)
         }
         .searchable(text: $searchText, prompt: "Search Movie...")
         .task {
-            await viewModel.fetchMovies()
+            await viewModel.fetchMovies(for: currentPage)
         }
     }
 }

@@ -14,6 +14,10 @@ struct MovieDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var favorites: [FavoriteMovie]
 
+    @StateObject private var detailVM = MovieDetailViewModel()
+    @State private var showTrailer = false
+
+
     var isFavorite: Bool {
         favorites.contains { $0.id == movie.id }
     }
@@ -56,16 +60,38 @@ struct MovieDetailView: View {
                 Spacer()
             }
             .padding()
+
+            if let trailerURL = detailVM.trailerURL {
+                Button {
+                    showTrailer = true
+                } label: {
+                    Label("Watch Trailer", systemImage: "play.circle.fill")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red.opacity(0.1))
+                        .cornerRadius(12)
+                }
+                .padding(.top)
+                .padding(.bottom, 30)
+                .sheet(isPresented: $showTrailer) {
+                    SafariView(url: trailerURL)
+                }
+            }
+
+            Button {
+                toggleFavorite()
+            } label: {
+                Label(isFavorite ? "Remove Favorite" : "Add to Favorites", systemImage: isFavorite ? "heart.fill" : "heart")
+                    .foregroundColor(isFavorite ? .red : .primary)
+            }
+            .padding(.bottom, 40)
+        }
+        .task {
+            await detailVM.loadTrailer(for: movie.id)
         }
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
-
-        Button {
-            toggleFavorite()
-        } label: {
-            Label(isFavorite ? "Remove Favorite" : "Add to Favorites", systemImage: isFavorite ? "heart.fill" : "heart")
-                .foregroundColor(isFavorite ? .red : .primary)
-        }
     }
 
     func toggleFavorite() {
