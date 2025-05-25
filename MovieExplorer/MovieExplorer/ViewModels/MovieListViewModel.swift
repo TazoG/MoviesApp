@@ -18,13 +18,13 @@ class MovieListViewModel: ObservableObject {
     var currentPage = 1
     var totalPages = 100
 
-    func fetchMovies(for page: Int) async {
+    func fetchMovies(for page: Int, query: String) async {
         isLoading = true
         errorMessage = nil
         currentPage = page
 
         do {
-            let newMovies = try await movieService.fetchPopularMovies(page: page)
+            let newMovies = try await movieService.fetchPopularMovies(page: page, query: query)
             movies = newMovies
         } catch {
             errorMessage = "Failed to load movies: \(error.localizedDescription)"

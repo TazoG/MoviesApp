@@ -28,7 +28,7 @@ struct MovieListView: View {
                         .multilineTextAlignment(.center)
                     Button {
                         Task {
-                            await viewModel.fetchMovies(for: currentPage)
+                            await viewModel.fetchMovies(for: currentPage, query: searchText)
                         }
                     } label: {
                         Label("Retry", systemImage: "arrow.clockwise")
@@ -41,7 +41,7 @@ struct MovieListView: View {
                     .padding(.top)
                 }
                 .padding()
-            } else if viewModel.filteredMovies(searchText: searchText).isEmpty {
+            } else if viewModel.movies.isEmpty {
                 VStack {
                     Spacer()
                     Image(systemName: "film")
@@ -55,7 +55,7 @@ struct MovieListView: View {
                     Spacer()
                 }
             } else {
-                List(viewModel.filteredMovies(searchText: searchText)) { movie in
+                List(viewModel.movies) { movie in
                     MovieRowView(movie: movie)
                 }
                 .listStyle(.plain)
@@ -67,7 +67,7 @@ struct MovieListView: View {
                     if currentPage > 1 {
                         currentPage -= 1
                         Task {
-                            await viewModel.fetchMovies(for: currentPage)
+                            await viewModel.fetchMovies(for: currentPage, query: searchText)
                         }
                     }
                 } label: {
@@ -90,7 +90,7 @@ struct MovieListView: View {
                 Button {
                     currentPage += 1
                     Task {
-                        await viewModel.fetchMovies(for: currentPage)
+                        await viewModel.fetchMovies(for: currentPage, query: searchText)
                     }
                 } label: {
                     Label("Next", systemImage: "chevron.right")
@@ -100,6 +100,7 @@ struct MovieListView: View {
                         .foregroundColor(.blue)
                         .cornerRadius(12)
                 }
+                .disabled(viewModel.movies.isEmpty)
             }
             .padding()
             .frame(maxWidth: .infinity)
@@ -108,8 +109,14 @@ struct MovieListView: View {
             .shadow(radius: 2)
         }
         .searchable(text: $searchText, prompt: "Search Movie...")
+        .onChange(of: searchText) {
+            currentPage = 1
+            Task {
+                await viewModel.fetchMovies(for: currentPage, query: searchText)
+            }
+        }
         .task {
-            await viewModel.fetchMovies(for: currentPage)
+            await viewModel.fetchMovies(for: currentPage, query: searchText)
         }
     }
 }

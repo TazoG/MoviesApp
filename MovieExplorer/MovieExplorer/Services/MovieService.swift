@@ -10,8 +10,10 @@ import Foundation
 class MovieService {
     private let apiKey = "1a96a69f1ad40a2dde00e71900241f7d"
 
-    func fetchPopularMovies(page: Int) async throws -> [Movie] {
-        let urlString = "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=en-US&page=\(page)"
+    func fetchPopularMovies(page: Int, query: String) async throws -> [Movie] {
+
+        let urlString = query.count == 0 ? "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=en-US&page=\(page)" :  "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&language=en-US&page=\(page)&query=\(query)"
+
 
         guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
