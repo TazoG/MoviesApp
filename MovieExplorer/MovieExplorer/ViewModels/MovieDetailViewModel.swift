@@ -12,7 +12,11 @@ class MovieDetailViewModel: ObservableObject {
     @Published var trailerURL: URL?
     @Published var isLoadingTrailer = false
 
-    private let movieService = MovieService()
+    private let movieService: MovieServiceProtocol
+
+    init(movieService: MovieServiceProtocol = MovieService()) {
+        self.movieService = movieService
+    }
 
     func loadTrailer(for movieId: Int) async {
         isLoadingTrailer = true

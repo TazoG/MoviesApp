@@ -6,14 +6,33 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 class MovieListViewModel: ObservableObject {
     @Published var movies: [Movie] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var searchText = ""
 
-    private let movieService = MovieService()
+    private let movieService: MovieServiceProtocol
+
+    private var cancellables = Set<AnyCancellable>()
+
+    init(movieService: MovieServiceProtocol = MovieService()) {
+        self.movieService = movieService
+
+        $searchText
+            .debounce(for: .milliseconds(2000), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { [weak self] searchText in
+                guard let self = self else { return }
+                Task {
+                    await self.fetchMovies(for: self.currentPage, query: searchText)
+                }
+            }
+            .store(in: &cancellables)
+    }
 
     var currentPage = 1
     var totalPages = 100

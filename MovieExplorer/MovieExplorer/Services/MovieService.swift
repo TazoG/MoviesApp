@@ -7,46 +7,66 @@
 
 import Foundation
 
-class MovieService {
-    private let apiKey = "1a96a69f1ad40a2dde00e71900241f7d"
+final class MovieService: MovieServiceProtocol {
+    private let apiKey: String
+    private let baseURL: String
+    private let urlSession: URLSession
+
+    init(apiKey: String = Constants.apiKey,
+         baseURL: String = Constants.baseURL,
+         urlSession: URLSession = .shared) {
+        self.apiKey = apiKey
+        self.baseURL = baseURL
+        self.urlSession = urlSession
+    }
 
     func fetchPopularMovies(page: Int, query: String) async throws -> [Movie] {
-
-        let urlString = query.count == 0 ? "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=en-US&page=\(page)" :  "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&language=en-US&page=\(page)&query=\(query)"
-
-
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
-
-        let (data, response) = try await URLSession.shared.data(from: url)
-
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-        }
-
-        let decoded = try JSONDecoder().decode(MovieResponse.self, from: data)
-        return decoded.results
+        let endpoint: APIEndpoint = query.isEmpty
+            ? .popularMovies(page: page)
+            : .searchMovies(page: page, query: query)
+        return try await fetchMovies(from: endpoint)
     }
 
     func fetchMovieTrailer(movieId: Int) async throws -> URL? {
-        let url = URL(string: "\(Constants.baseURL)/movie/\(movieId)/videos?api_key=\(Constants.apiKey)&language=en-US")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(VideoResponse.self, from: data)
+        guard let url = APIEndpoint.movieTrailer(movieId: movieId).url(apiKey: apiKey, baseURL: baseURL) else {
+            throw URLError(.badURL)
+        }
+        let (data, response) = try await urlSession.data(from: url)
+        try validate(response: response)
+        let videoResponse = try JSONDecoder().decode(VideoResponse.self, from: data)
+        return videoResponse.results.first(where: { $0.type == "Trailer" && $0.site == "YouTube" })
+            .flatMap { URL(string: "https://www.youtube.com/watch?v=\($0.key)") }
+    }
 
-        if let trailer = response.results.first(where: { $0.type == "Trailer" && $0.site == "YouTube" }) {
-            return URL(string: "https://www.youtube.com/watch?v=\(trailer.key)")
-        } else {
-            return nil
+    func fetchGenres() async throws -> [Genre] {
+        guard let url = APIEndpoint.genres.url(apiKey: apiKey, baseURL: baseURL) else {
+            throw URLError(.badURL)
+        }
+        let (data, response) = try await urlSession.data(from: url)
+        try validate(response: response)
+        let genreResponse = try JSONDecoder().decode(GenreResponse.self, from: data)
+        return genreResponse.genres
+    }
+
+    func fetchMoviesByGenre(genreId: Int) async throws -> [Movie] {
+        return try await fetchMovies(from: .moviesByGenre(genreId: genreId))
+    }
+
+    // MARK: - Helpers
+
+    private func fetchMovies(from endpoint: APIEndpoint) async throws -> [Movie] {
+        guard let url = endpoint.url(apiKey: apiKey, baseURL: baseURL) else {
+            throw URLError(.badURL)
+        }
+        let (data, response) = try await urlSession.data(from: url)
+        try validate(response: response)
+        let movieResponse = try JSONDecoder().decode(MovieResponse.self, from: data)
+        return movieResponse.results
+    }
+
+    private func validate(response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
         }
     }
 }
-
-struct Constants {
-    static let apiKey = "1a96a69f1ad40a2dde00e71900241f7d"
-    static let baseURL = "https://api.themoviedb.org/3"
-    static let imageBaseURL = "https://image.tmdb.org/t/p/w500"
-}
-
-
-

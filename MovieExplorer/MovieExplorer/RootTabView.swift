@@ -19,6 +19,11 @@ struct RootTabView: View {
                 .tabItem {
                     Label("Favorites", systemImage: "heart.fill")
                 }
+
+            GenreView()
+                .tabItem {
+                    Label("Genres", systemImage: "square.stack.3d.forward.dottedline.fill")
+                }
         }
     }
 }

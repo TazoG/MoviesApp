@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MovieListView: View {
     @StateObject private var viewModel = MovieListViewModel()
-    @State private var searchText = ""
+    
     @State private var currentPage = 1
 
     var body: some View {
@@ -28,7 +28,7 @@ struct MovieListView: View {
                         .multilineTextAlignment(.center)
                     Button {
                         Task {
-                            await viewModel.fetchMovies(for: currentPage, query: searchText)
+                            await viewModel.fetchMovies(for: currentPage, query: viewModel.searchText)
                         }
                     } label: {
                         Label("Retry", systemImage: "arrow.clockwise")
@@ -67,7 +67,7 @@ struct MovieListView: View {
                     if currentPage > 1 {
                         currentPage -= 1
                         Task {
-                            await viewModel.fetchMovies(for: currentPage, query: searchText)
+                            await viewModel.fetchMovies(for: currentPage, query: viewModel.searchText)
                         }
                     }
                 } label: {
@@ -90,7 +90,7 @@ struct MovieListView: View {
                 Button {
                     currentPage += 1
                     Task {
-                        await viewModel.fetchMovies(for: currentPage, query: searchText)
+                        await viewModel.fetchMovies(for: currentPage, query: viewModel.searchText)
                     }
                 } label: {
                     Label("Next", systemImage: "chevron.right")
@@ -108,15 +108,9 @@ struct MovieListView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             .shadow(radius: 2)
         }
-        .searchable(text: $searchText, prompt: "Search Movie...")
-        .onChange(of: searchText) {
-            currentPage = 1
-            Task {
-                await viewModel.fetchMovies(for: currentPage, query: searchText)
-            }
-        }
+        .searchable(text: $viewModel.searchText, prompt: "Search Movie...")
         .task {
-            await viewModel.fetchMovies(for: currentPage, query: searchText)
+            await viewModel.fetchMovies(for: currentPage, query: viewModel.searchText)
         }
     }
 }
