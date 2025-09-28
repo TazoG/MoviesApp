@@ -52,8 +52,6 @@ final class MovieService: MovieServiceProtocol {
         return try await fetchMovies(from: .moviesByGenre(genreId: genreId))
     }
 
-    // MARK: - Helpers
-
     private func fetchMovies(from endpoint: APIEndpoint) async throws -> [Movie] {
         guard let url = endpoint.url(apiKey: apiKey, baseURL: baseURL) else {
             throw URLError(.badURL)
