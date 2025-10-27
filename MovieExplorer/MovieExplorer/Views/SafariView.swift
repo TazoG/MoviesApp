@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SafariServices
-//refactor
+//full test
 
 struct SafariView: UIViewControllerRepresentable {
     let url: URL

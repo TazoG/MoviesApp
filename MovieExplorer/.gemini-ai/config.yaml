@@ -1,0 +1,40 @@
+# .gemini-ai/config.yaml
+
+# ძირითადი პარამეტრები
+have_fun: false # გამორთავს "მხიარულ" ფუნქციებს, როგორიცაა ლექსები.
+code_review:
+  disable: false
+  # მინიმალური სერიოზულობა, რასაც Gemini განიხილავს.
+  # MEDIUM კარგი ბალანსია, მაგრამ შეგიძლიათ გახადოთ HIGH ან CRITICAL.
+  comment_severity_threshold: MEDIUM
+  # მაქსიმალური კომენტარების რაოდენობა. -1 ნიშნავს შეუზღუდავს.
+  max_review_comments: -1
+  pull_request_opened:
+    # ნაგულისხმევად, ავტომატური შეჯამება და კოდის განხილვა ჩართულია.
+    # ჩვენ ვტოვებთ მათ true-ზე.
+    help: false
+    summary: true
+    code_review: true
+    include_drafts: true
+
+# ფაილები, რომლებსაც Gemini უგულებელყოფს
+# ეს არის ფაილები, რომელთა განხილვა არ გვინდა (მაგალითად, ბილდის შედეგები).
+ignore_patterns:
+  - ".build/**"           # Swift Package Manager-ის შედეგები
+  - "DerivedData/**"      # Xcode-ის ქეშის პაპკა
+  - "*.xcodeproj/**"
+  - "*.xcworkspace/**"
+  - "Pods/**"             # CocoaPods დამოკიდებულებები
+  - "**/R.generated.swift" # ავტომატურად გენერირებული ფაილები
+  - "**/*.min.js"         # ვებ-რესურსები, თუ გაქვთ
+
+# დამატებითი კონტექსტური ფაილები
+# ეს ფაილები, მიუხედავად იმისა, იცვლება თუ არა, მიეწოდება Gemini-ს, როგორც მთელი პროექტის კონტექსტი.
+# ეს უზრუნველყოფს, რომ Gemini-მ "განიხილოს მთლიანი პროექტი".
+context_patterns:
+  # ეს არის თქვენი სტილის სახელმძღვანელო (მე-3 ფაილი)
+  - "styleguide.md"
+  # დაამატეთ ნებისმიერი ფაილი, რომელიც შეიცავს გლობალურ კონფიგურაციას
+  - "ProjectName/Constants/GlobalConfig.swift"
+  - "ProjectName/Utilities/Extensions.swift"
+  - "README.md"
