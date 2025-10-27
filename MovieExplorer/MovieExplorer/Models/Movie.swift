@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+//testing for Gemini
 struct MovieResponse: Codable {
     let results: [Movie]
 }
